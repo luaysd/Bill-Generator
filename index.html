@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    
+</head>
+<style>
+    body{
+    padding: 0px;
+    background-color: rgb(250, 222, 185);
+}
+#form{
+    font-size: 22px;
+    display: block;
+    width: 50%;
+    margin: auto;
+    margin-top: 60px;
+}
+h1{
+
+    font-size: 50px;
+     display: block;
+    width: fit-content;
+    margin: auto;
+
+
+}
+
+input{
+    font-size: 17px;
+    display: block;
+    width: 350px;
+    height: 23px;
+    margin: 0 auto 0 auto;
+   
+   
+}
+
+label {
+    display: block;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+button{
+    font-size: 18px;
+    display: block;
+    width: auto;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(183, 185, 192);
+    
+}
+#output{
+    display: block;
+    margin: auto;
+    display:none;
+    width:800px;
+    height: auto;
+    border:  3px solid black;
+    padding: 30px;
+    background-color: rgb(231, 227, 222);
+}
+table.bill td,th{
+    width: 00px;
+    height: 50px;
+    text-align: center;
+}
+td,th{
+    width: 300px;
+    height: 50px;
+    text-align: left;
+}
+#h2{
+    width:200px;
+    margin: auto;
+    display: none;
+}
+footer h2{
+
+width:fit-content ;
+font-size: 40px;
+margin: auto;
+margin-top: 50px;
+}
+
+</style>
+<body>
+    <h1>Bill Generator</h1>
+    <div id="form">
+        
+    <div id="input">
+        <label for="idInput">ID</label>
+       
+        <input id="idInput" type="number" placeholder="Enter your ID"required>
+        <br>
+        <label for="counterInput">Counter Type</label>
+        <input id="counterInput" type="number" placeholder="Enter counter type" required>
+        <br>
+        <label for="unitInput">Unit Amount</label>
+        <input id="unitInput" type="number" placeholder="Enter the amount of watts consumed" required>
+        <br>
+        <button  id="btn" onclick="showBill()" >Generate</button>
+    </div>
+    
+   
+</div>
+    <br>
+    <div></div>
+    
+   <div id="h2">
+ <h2>Generated Bill : </h2>
+</div>
+   <div id="output">
+
+
+<p>Customer ID : <span id="idOutput"></span> </p> 
+<p>Total Units consumed : <span id="unitOutput"></span> </p> 
+<table>
+    <tr>
+        <th>
+            Slab
+        </th>
+        <th>
+            Rate
+        </th>
+        <th>
+            Units
+        </th>
+        <th>
+            Charges
+        </th>
+    </tr>
+    <tr>
+        <td>0-150</td>
+        <td>55</td>
+        <td ><span id="units0_150"></span></td>   
+        <td ><span id="charges0_150"></span></td>   
+    </tr>
+    <tr>  
+        <td>150-300</td>
+        <td>60</td>
+        <td > <span id="units150_300"></span></td>
+        <td > <span id="charges150_300"></span></td>
+        
+    </tr>
+    <tr>
+        <td>300-500</td>
+        <td>65</td>
+        <td ><span id="units300_500"></span></td>
+        <td > <span id="charges300_500"></span></td>
+
+    
+        
+    </tr>
+    <tr>
+        <td>>500</td>
+        <td>70</td>
+        <td ><span id="units500"></span></td>
+        <td > <span id="charges500"></span></td>
+    </tr>
+</table>
+
+<h3>Final Bill Generated </h3>
+<table id="bill">
+<tr>
+    <td>
+        <p>Fixed Charges </p>
+        
+    </td>
+    <td>
+        <span id="fixedOut"></span>
+    </td>
+</tr>
+<tr>
+    <td>
+        <p>Units Charges</span></p>
+
+    </td>
+    <td>
+        <span id="unitsChargesOut"></span>
+    </td>
+</tr>
+
+<tr><td>
+    <P>Regulatury Surcharges</P>
+    </td>
+    <td>
+        <span id="regulatoryOut"></span>
+    </td>
+</tr>
+<tr>
+    <td><p>Tax </p></td>
+    
+    <td><span id="taxOut"></span></td>
+</tr>
+
+<tr>
+    <td><p>Total Bill </p></td>
+    <td><span id="finalBillOut"></span></td>
+</tr>
+
+
+</table>
+</div>
+<footer>
+<h2>Made by Luay Sarieddeen</h2>  
+</footer>
+</body>
+<script>
+    let idInput = document.getElementById("idInput");
+let counterInput = document.getElementById("counterInput");
+let unitInput = document.getElementById('unitInput');
+let idOutput = document.getElementById('idOutput');
+let unitOutput =document.getElementById("unitOutput");
+let unit0 =document.getElementById("units0_150");
+let unit150 =document.getElementById("units150_300");
+let unit300 =document.getElementById("units300_500");
+let unit500 =document.getElementById("units500");
+let charge0 =document.getElementById("charges0_150");
+let charge150 =document.getElementById("charges150_300");
+let charge300 =document.getElementById("charges300_500");
+let charge500 =document.getElementById("charges500");
+let fixedOut= document.getElementById("fixedOut");
+let regulatoryOut= document.getElementById("regulatoryOut");
+let taxOut= document.getElementById("taxOut");
+let unitsChargesOut= document.getElementById("unitsChargesOut");
+let finalBillOut= document.getElementById("finalBillOut");
+let output= document.getElementById("output");
+let h2= document.getElementById("h2");
+let form= document.getElementById("form");
+let counterType;
+let rate0_150=55;
+let rate150_300=60;
+let rate300_500=65;
+let rate500=70;
+let units0_150;
+let units150_300;
+let units300_500;
+let units500;
+let charges0_150;
+let charges150_300;
+let charges300_500;
+let charges500;
+let unitAmount;
+let fixedCharges;
+const sayrafaRate=21500;
+let regulaturySurCharges;
+let billWithOutTax;
+let finalBill;
+const taxPercenatage=0.1;
+let tax;
+
+function showBill(){
+    console.log(unitAmount);
+
+
+   if(!validateInput()) 
+   return;
+
+   output.style.display="block";
+   h2.style.display="block";
+   form.style.display="none";
+    idOutput.innerHTML=idInput.value;
+    unitOutput.innerHTML=unitInput.value;
+    unitAmount = unitInput.value;
+    calculateTable();
+     calculateBill();
+    
+}
+ function calculateBill(){
+
+    
+   if(counterInput.value>=20 )
+   counterType=20;
+    if(counterInput.value==10)
+       counterType=10
+     if(counterInput.value<=5)
+        counterType=5
+
+    fixedCharges=counterType*sayrafaRate;
+    
+    unitCharges=charges0_150+charges150_300+charges300_500+charges500;
+
+    regulaturySurCharges=8*sayrafaRate;
+
+    billWithOutTax=fixedCharges+unitCharges+regulaturySurCharges;
+    tax=taxPercenatage*billWithOutTax;
+    finalBill=billWithOutTax+ tax;
+
+    fixedOut.innerHTML=fixedCharges.toLocaleString('en-US') + " LBP "+ " \xa0\xa0 "+" (" + counterType + "$ Counter Type "+ counterInput.value +" AMP )" ;
+    unitsChargesOut.innerHTML=unitCharges.toLocaleString('en-US')+ " LBP";
+    taxOut.innerHTML=tax.toLocaleString('en-US')+" LBP";
+    regulatoryOut.innerHTML=regulaturySurCharges.toLocaleString('en-US') +" LBP";
+    finalBillOut.innerHTML=finalBill.toLocaleString('en-US') + " LBP";
+
+
+
+}
+function calculateTable(){
+    
+    if(unitAmount>500){
+         units500=unitAmount-500;
+         units0_150=150;
+         units150_300=150;
+         units300_500=200;
+        }
+    else if(unitAmount>300){
+           units300_500=unitAmount-300;
+           units150_300=150;
+         units0_150=150;
+         units500=0;
+    }
+           else if(unitAmount>150){
+               units150_300=unitAmount-150;
+                units0_150=150;
+                units300_500=0;
+                units500=0;
+     }
+                    else {
+                        units0_150=unitAmount;
+                        units150_300=0;
+                        units300_500=0;
+                        units500=0;
+                        }
+
+            charges0_150=units0_150*rate0_150;
+            charges150_300=units150_300*rate150_300;
+            charges300_500=units300_500*rate300_500;
+            charges500=units500*rate500;
+
+
+
+            unit0.innerHTML=units0_150;
+            unit150.innerHTML=units150_300;
+            unit300.innerHTML=units300_500;
+            unit500.innerHTML=units500;
+            charge0.innerHTML=charges0_150.toLocaleString('en-US') + " LBP";
+            charge150.innerHTML=charges150_300.toLocaleString('en-US') + " LBP";
+            charge300.innerHTML=charges300_500.toLocaleString('en-US')+" LBP";
+            charge500.innerHTML=charges500.toLocaleString('en-US')+ " LBP";
+
+
+            
+                        console.log(unitAmount);
+      
+           console.log(units0_150);
+           console.log(units150_300);
+           console.log(units300_500);
+           console.log(units500);
+           console.log(charges0_150);
+           console.log(charges150_300);
+           console.log(charges300_500);
+           console.log( charges500.toLocaleString('en-US'));
+
+
+
+
+
+
+    
+    
+
+
+}
+
+idInput.addEventListener("change",function(){
+    
+    removeRed(idInput)
+})
+counterInput.addEventListener("change",function(){
+    
+    removeRed(counterInput)
+})
+unitInput.addEventListener("change",function(){
+    
+    removeRed(unitInput)
+})
+
+function removeRed(elem){
+    elem.style.border="";
+    elem.style.boxShadow="none";
+
+}
+function makeRed(elem){
+
+    elem.style.border="2px red solid";
+    elem.style.boxShadow="1px 1px 5px red "
+}
+
+
+function validateInput(){
+let flag=true;
+    if(idInput.value==""  )
+    {
+       
+        makeRed(idInput);
+        flag=false;
+    }
+    if( counterInput.value=="" )
+    {
+       
+        makeRed(counterInput);
+        flag=false;
+    }
+    if( unitInput.value=="" )
+    {
+        
+        makeRed(unitInput);
+        flag=false;
+    }
+
+    if(flag==false)
+    {
+        alert("All fields must be filled");
+        return flag;
+    }
+    
+    if(idInput.value<0)
+    {
+        makeRed(idInput);
+        alert("ID should be greater than 0");
+        flag=false;
+    }
+    if(counterInput.value<0 )
+    {
+        makeRed(counterInput);
+        alert("Counter Type should be greater then 0");
+        flag=false;
+    }
+    if(unitInput.value<0)
+    {
+         makeRed(unitInput);
+        alert("Watt Amount should be greater than 0");
+        flag=false;
+    }
+     
+
+     return flag;
+    
+}
+
+</script>
+</html>
